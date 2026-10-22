@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoQuest | Environmental Learning & Action</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Modular Datasets -->
+    <script src="data/topics.js"></script>
+    <script src="data/ecoiq.js"></script>
+    <script src="data/missions.js"></script>
+    <script src="data/creative-projects.js"></script>
+    <script src="data/ecolens.js"></script>
+    <script src="data/badges.js"></script>
+    <script src="data/journey.js"></script>
+    <script src="data/index.js"></script>
+
+    <!-- Core App Logic Modules -->
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/quiz.js"></script>
+    <script src="assets/js/learning.js"></script>
+    <script src="assets/js/missions.js"></script>
+    <script src="assets/js/create.js"></script>
+    <script src="assets/js/ecolens.js"></script>
+    <script src="assets/js/bookmarks.js"></script>
+    <script src="assets/js/profile.js"></script>
+    <script src="assets/js/progress.js"></script>
+    <script src="assets/js/app.js"></script>
+</head>
+<body>
+    <!-- Mobile Drawer Backdrop -->
+    <div id="mobile-backdrop" class="mobile-backdrop" onclick="closeMobileSidebar()"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="app-sidebar" id="app-sidebar">
+            <div class="sidebar-header">
+                <a href="javascript:void(0)" onclick="navigateTo('view-dashboard')" class="sidebar-logo-link" title="EcoQuest Dashboard">
+                    <img src="assets/images/ecoquest-logo.png" alt="EcoQuest Logo" class="sidebar-logo-img">
+                </a>
+                <a href="javascript:void(0)" onclick="navigateTo('view-dashboard')" class="sidebar-mark-link" title="EcoQuest Dashboard">
+                    <img src="assets/images/ecoquest-mark.png" alt="EcoQuest" class="sidebar-mark-img">
+                </a>
+                <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Collapse / Expand Sidebar">
+                    <i data-lucide="panel-left-close" id="sidebar-toggle-icon"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <a href="javascript:void(0)" class="nav-item active" data-target="view-dashboard" data-title="Dashboard">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span class="sidebar-text">Dashboard</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-ecoiq" data-title="EcoIQ Assessment">
+                    <i data-lucide="brain-circuit"></i>
+                    <span class="sidebar-text">EcoIQ Quiz</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-journey" data-title="My Eco Journey">
+                    <i data-lucide="map"></i>
+                    <span class="sidebar-text">My Eco Journey</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-learn" data-title="Learn Topics">
+                    <i data-lucide="book-open"></i>
+                    <span class="sidebar-text">Learn Topics</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-missions" data-title="Eco Missions">
+                    <i data-lucide="target"></i>
+                    <span class="sidebar-text">Eco Missions</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-create" data-title="Create With Waste">
+                    <i data-lucide="scissors"></i>
+                    <span class="sidebar-text">Create With Waste</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-ecolens" data-title="EcoLens Decisions">
+                    <i data-lucide="search"></i>
+                    <span class="sidebar-text">EcoLens</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-progress" data-title="My Progress">
+                    <i data-lucide="bar-chart-2"></i>
+                    <span class="sidebar-text">My Progress</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-bookmarks" data-title="Bookmarks">
+                    <i data-lucide="bookmark"></i>
+                    <span class="sidebar-text">Bookmarks</span>
+                </a>
+
+                <hr class="sidebar-divider">
+
+                <a href="javascript:void(0)" class="nav-item" data-target="view-profile" data-title="Profile">
+                    <i data-lucide="user"></i>
+                    <span class="sidebar-text">Profile</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item" data-target="view-settings" data-title="Settings">
+                    <i data-lucide="settings"></i>
+                    <span class="sidebar-text">Settings</span>
+                </a>
+                <a href="javascript:void(0)" class="nav-item nav-item-logout" onclick="logout()" data-title="Logout" title="Log Out of EcoQuest">
+                    <i data-lucide="log-out"></i>
+                    <span class="sidebar-text">Logout</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <div class="app-main">
+            <!-- Top Bar -->
+            <header class="app-topbar">
+                <div class="topbar-left">
+                    <button class="mobile-menu-btn" id="mobile-menu-btn" onclick="openMobileSidebar()" title="Open Navigation Menu">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <h3 id="current-page-title" style="color: var(--text-main); font-size: 1.25rem;">Dashboard</h3>
+                </div>
+
+                <div class="topbar-right">
+                    <!-- Global Search Button (Ctrl+K) -->
+                    <button class="btn btn-secondary btn-sm" onclick="openGlobalSearch()" title="Search Topics, Missions, Projects (Ctrl+K)">
+                        <i data-lucide="search" style="width:14px;"></i> <span style="font-size: 0.8rem;">Search (Ctrl+K)</span>
+                    </button>
+
+                    <!-- User Profile Quick Button -->
+                    <div class="user-profile" onclick="navigateTo('view-profile')" title="View Your Profile">
+                        <div class="user-avatar" id="nav-avatar">U</div>
+                        <span id="nav-name" style="font-weight: 600; font-size: 0.95rem;">User</span>
+                    </div>
+
+                    <!-- Logout Button -->
+                    <button class="btn btn-text topbar-logout-btn" onclick="logout()" style="padding: 0.5rem;" title="Log Out of EcoQuest">
+                        <i data-lucide="log-out"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable View Area -->
+            <main class="app-content" id="app-content">
+
+                <!-- 1. DASHBOARD VIEW -->
+                <section id="view-dashboard" class="view-section">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+                        <div>
+                            <h1 style="font-size: 2rem; margin-bottom: 0.25rem;" id="dash-greeting">Welcome back, Explorer</h1>
+                            <p class="subtitle">Here is your live impact overview and personalized next steps.</p>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-primary btn-sm" onclick="navigateTo('view-ecoiq')">
+                                <i data-lucide="brain-circuit"></i> EcoIQ Quiz
+                            </button>
+                            <button class="btn btn-outline btn-sm" onclick="navigateTo('view-missions')">
+                                <i data-lucide="target"></i> Eco Missions
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Priority Focus / Next Action Banner -->
+                    <div id="dash-focus-banner" style="margin-top: 1.75rem; margin-bottom: 1.75rem;"></div>
+
+                    <!-- Active In-Progress Missions Section -->
+                    <div id="dash-active-missions-banner" style="margin-bottom: 1.75rem;"></div>
+
+                    <!-- Real Calculated Stats Row -->
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <span class="label">EcoIQ Score</span>
+                            <span class="value" id="stat-iq">Pending</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;" id="stat-iq-label">Assessment Status</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Total EcoXP</span>
+                            <span class="value" id="stat-xp">0 XP</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;" id="stat-xp-level">Level 1 • Seedling</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Missions Completed</span>
+                            <span class="value" id="stat-missions">0</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">Real-World Actions</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Upcycling Projects</span>
+                            <span class="value" id="stat-projects">0</span>
+                            <span style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem;">₹0 DIY Crafts Built</span>
+                        </div>
+                    </div>
+
+                    <!-- Daily Quick Quest Card -->
+                    <div class="card" style="background: var(--warm-cream); border: 1.5px solid var(--border-color); padding: 1.5rem; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <div class="icon-container" style="background: var(--forest-green); color: white;">
+                                <i data-lucide="zap"></i>
+                            </div>
+                            <div>
+                                <h4 style="margin-bottom: 0.2rem; font-size: 1.1rem;">Daily Habit: Turn off idle power strips & unplug chargers</h4>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Eliminate standby vampire power around your home or workspace today.</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline" id="btn-quick-quest" onclick="completeQuickQuest()">
+                            <i data-lucide="check-circle"></i> Complete Quest (+10 XP)
+                        </button>
+                    </div>
+
+                    <!-- Quick Navigation Cards Grid -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <div class="card" style="cursor: pointer;" onclick="navigateTo('view-journey')">
+                            <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;">
+                                <div class="icon-container"><i data-lucide="map"></i></div>
+                                <div>
+                                    <h4 style="font-size: 1.1rem; color: var(--text-main);">My Eco Journey</h4>
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">8 Dynamic Roadmap Stages</span>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">View your guided progression roadmap adapted to your EcoIQ assessment scores.</p>
+                        </div>
+
+                        <div class="card" style="cursor: pointer;" onclick="navigateTo('view-create')">
+                            <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;">
+                                <div class="icon-container"><i data-lucide="scissors"></i></div>
+                                <div>
+                                    <h4 style="font-size: 1.1rem; color: var(--text-main);">Create With Waste</h4>
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">16 ₹0 Upcycling Guides</span>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Select household materials you already have and generate instant step-by-step DIY crafts.</p>
+                        </div>
+
+                        <div class="card" style="cursor: pointer;" onclick="navigateTo('view-ecolens')">
+                            <div style="display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;">
+                                <div class="icon-container"><i data-lucide="camera"></i></div>
+                                <div>
+                                    <h4 style="font-size: 1.1rem; color: var(--text-main);">EcoLens Photo Scanner</h4>
+                                    <span style="font-size: 0.8rem; color: var(--text-muted);">24 Verified Disposal Streams</span>
+                                </div>
+                            </div>
+                            <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">Snap a photo or search items for instant segregation guidance and circular upcycling tips.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. ECOIQ QUIZ PLATFORM VIEW -->
+                <section id="view-ecoiq" class="view-section hidden">
+                    <!-- Selector Screen -->
+                    <div id="ecoiq-selector-view">
+                        <div style="margin-bottom: 2rem;">
+                            <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">EcoIQ Assessment Platform</h1>
+                            <p class="subtitle">Choose a mixed diagnostic check or master specific environmental categories from our 60+ question pool.</p>
+                        </div>
+
+                        <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Mixed Comprehensive Quizzes</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+                            <div class="card quiz-mode-card" style="cursor: pointer; display: flex; flex-direction: column;" onclick="EcoQuiz.startQuiz('quick')">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                                    <div class="icon-container"><i data-lucide="zap"></i></div>
+                                    <span class="badge badge-category">10 Questions</span>
+                                </div>
+                                <h3 style="font-size: 1.3rem; margin-bottom: 0.4rem; color: var(--accent-primary);">Quick Eco Check</h3>
+                                <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.55; margin-bottom: 1.25rem; flex: 1;">
+                                    A balanced 10-question randomized check across waste, water, energy, and circular living. Ideal for quick daily practice.
+                                </p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 0.85rem; font-size: 0.82rem; color: var(--text-muted);">
+                                    <span>~5 mins • Standard</span>
+                                    <span style="color: var(--accent-primary); font-weight: 700;">+50 XP</span>
+                                </div>
+                            </div>
+
+                            <div class="card quiz-mode-card" style="cursor: pointer; display: flex; flex-direction: column;" onclick="EcoQuiz.startQuiz('full')">
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem;">
+                                    <div class="icon-container" style="background: var(--accent-primary); color: white;"><i data-lucide="award"></i></div>
+                                    <span class="badge badge-energy">20 Questions</span>
+                                </div>
+                                <h3 style="font-size: 1.3rem; margin-bottom: 0.4rem; color: var(--accent-primary);">Full EcoIQ Assessment</h3>
+                                <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.55; margin-bottom: 1.25rem; flex: 1;">
+                                    Our comprehensive benchmark assessing all 12 sustainability domains. Generates in-depth category breakdowns.
+                                </p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 0.85rem; font-size: 0.82rem; color: var(--text-muted);">
+                                    <span>~10 mins • Comprehensive</span>
+                                    <span style="color: var(--accent-primary); font-weight: 700;">+50 XP</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Category Deep Dives</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem;">
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Waste & Circular Living')">
+                                <span class="badge badge-waste" style="margin-bottom: 0.5rem;">Waste</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Waste & Circular Living</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Water Conservation')">
+                                <span class="badge badge-water" style="margin-bottom: 0.5rem;">Water</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Water Conservation</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Energy & Climate')">
+                                <span class="badge badge-energy" style="margin-bottom: 0.5rem;">Energy</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Energy & Climate</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Food & Sustainable Eating')">
+                                <span class="badge badge-category" style="margin-bottom: 0.5rem;">Food</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Food & Organic Living</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'E-Waste & Technology')">
+                                <span class="badge badge-waste" style="margin-bottom: 0.5rem;">Tech</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">E-Waste & Technology</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Sustainable Fashion')">
+                                <span class="badge badge-category" style="margin-bottom: 0.5rem;">Fashion</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Sustainable Fashion</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Biodiversity & Wildlife')">
+                                <span class="badge badge-category" style="margin-bottom: 0.5rem;">Nature</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Biodiversity & Wildlife</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Plastic & Oceans')">
+                                <span class="badge badge-water" style="margin-bottom: 0.5rem;">Oceans</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Plastic & Oceans</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Sustainable Transportation')">
+                                <span class="badge badge-energy" style="margin-bottom: 0.5rem;">Mobility</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Sustainable Transport</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Sustainable Consumption')">
+                                <span class="badge badge-category" style="margin-bottom: 0.5rem;">Circularity</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Mindful Consumption</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Green Homes & Everyday Living')">
+                                <span class="badge badge-category" style="margin-bottom: 0.5rem;">Home</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Green Homes & Living</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                            <div class="card" style="cursor: pointer; padding: 1.25rem;" onclick="EcoQuiz.startQuiz('category', 'Climate Awareness')">
+                                <span class="badge badge-energy" style="margin-bottom: 0.5rem;">Climate</span>
+                                <h4 style="font-size: 1.05rem; margin-bottom: 0.35rem;">Climate Awareness</h4>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">5 Scenario Qs</span>
+                            </div>
+                        </div>
+
+                        <!-- Assessment History Section -->
+                        <div id="ecoiq-history-section" style="margin-top: 3rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h3 style="font-size: 1.25rem;">Assessment History</h3>
+                                <span style="font-size: 0.85rem; color: var(--text-muted);">Saved Past Attempts</span>
+                            </div>
+                            <div id="ecoiq-history-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Active Quiz Screen -->
+                    <div id="ecoiq-quiz-view" class="hidden">
+                        <div class="card" style="max-width: 780px; margin: 0 auto; padding: 2.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                    <span id="iq-category-badge" class="badge badge-category">Category</span>
+                                    <span id="iq-diff-badge" class="badge badge-easy">Easy</span>
+                                    <span id="iq-streak-indicator" class="badge badge-energy hidden">🔥 3 streak!</span>
+                                </div>
+                                <span id="iq-progress-text" style="font-size: 0.9rem; font-weight: 700; color: var(--text-muted);">Question 1 of 10</span>
+                            </div>
+
+                            <div class="progress-bar-container" style="height: 8px; margin-bottom: 2rem;">
+                                <div id="iq-progress-fill" class="progress-fill" style="width: 10%;"></div>
+                            </div>
+
+                            <h3 id="iq-scenario" style="font-size: 1.35rem; color: var(--forest-green); margin-bottom: 1.75rem; line-height: 1.45;">
+                                Loading question...
+                            </h3>
+
+                            <div id="iq-options" class="iq-options" style="margin-bottom: 2rem;"></div>
+
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                                <button class="btn btn-outline" id="btn-prev-iq" onclick="EcoQuiz.prevQuestion()">
+                                    <i data-lucide="arrow-left"></i> Previous
+                                </button>
+                                <button class="btn btn-primary" id="btn-next-iq" onclick="EcoQuiz.nextQuestion()">
+                                    Next Question <i data-lucide="arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Screen -->
+                    <div id="ecoiq-result-view" class="hidden">
+                        <div class="card" style="max-width: 800px; margin: 0 auto; padding: 2.5rem;">
+                            <div style="text-align: center; margin-bottom: 2rem;">
+                                <div class="icon-container" style="margin: 0 auto 1rem auto; width: 64px; height: 64px; background: var(--light-green); color: var(--forest-green);">
+                                    <i data-lucide="award" style="width: 36px; height: 36px;"></i>
+                                </div>
+                                <h1 style="font-size: 2.4rem; color: var(--forest-green); margin-bottom: 0.25rem;" id="iq-res-score">85%</h1>
+                                <h3 id="iq-res-tier" style="font-size: 1.3rem; color: var(--text-main); margin-bottom: 0.5rem;">Eco Champion</h3>
+                                <p id="iq-res-summary" style="color: var(--text-muted); max-width: 540px; margin: 0 auto; font-size: 0.95rem; line-height: 1.6;">
+                                    Assessment completed successfully.
+                                </p>
+                            </div>
+
+                            <!-- Strengths & Focus Areas -->
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem;">
+                                <div style="background: var(--light-green); border: 1px solid var(--light-green-border); border-radius: var(--radius-sm); padding: 1.25rem;">
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: var(--forest-green); text-transform: uppercase;">Top Strength</span>
+                                    <h4 id="iq-res-strong" style="color: var(--forest-green); font-size: 1.15rem; margin-top: 0.25rem;">Waste Segregation</h4>
+                                </div>
+                                <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: var(--radius-sm); padding: 1.25rem;">
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #b45309; text-transform: uppercase;">Area for Growth</span>
+                                    <h4 id="iq-res-weak" style="color: #b45309; font-size: 1.15rem; margin-top: 0.25rem;">E-Waste Protocols</h4>
+                                </div>
+                            </div>
+
+                            <!-- Category Scores Breakdown -->
+                            <h4 style="margin-bottom: 1rem; font-size: 1.1rem;">Category Score Breakdown</h4>
+                            <div id="iq-category-breakdown" style="margin-bottom: 1.5rem;"></div>
+
+                            <!-- Dynamic Recommendation Section -->
+                            <div id="iq-res-recommendation"></div>
+
+                            <!-- 3 Distinct Action Buttons -->
+                            <div style="display: flex; gap: 0.75rem; justify-content: center; border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem; flex-wrap: wrap;">
+                                <button class="btn btn-outline" onclick="EcoQuiz.reviewAnswers()">
+                                    <i data-lucide="eye"></i> Review Answers
+                                </button>
+                                <button class="btn btn-secondary" onclick="EcoQuiz.retakeAssessment()" title="Retake exact same questions">
+                                    <i data-lucide="rotate-ccw"></i> Retake This Assessment
+                                </button>
+                                <button class="btn btn-primary" onclick="EcoQuiz.startNewAssessment()">
+                                    <i data-lucide="sparkles"></i> Start New Assessment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. MY ECO JOURNEY VIEW -->
+                <section id="view-journey" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">My Eco Journey Roadmap</h1>
+                        <p class="subtitle">A dynamic, personalized progression path that adapts as you master topics, complete missions, and conquer EcoIQ assessments.</p>
+                    </div>
+
+                    <div id="journey-timeline" style="max-width: 820px; margin: 0 auto;"></div>
+                </section>
+
+                <!-- 4. LEARN TOPICS VIEW -->
+                <section id="view-learn" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">Environmental Knowledge Library</h1>
+                        <p class="subtitle">25 in-depth, practical environmental lessons with interactive knowledge checks and real-world takeaways.</p>
+                    </div>
+
+                    <div class="filter-bar">
+                        <select class="filter-select" id="topic-filter-category" onchange="EcoLearning.renderTopics()">
+                            <option value="all">All Categories (25 Topics)</option>
+                            <option value="Waste">Waste & Circularity</option>
+                            <option value="Water">Water Conservation</option>
+                            <option value="Energy">Energy & Climate</option>
+                            <option value="Food">Food & Organic Living</option>
+                            <option value="E-Waste">E-Waste & Technology</option>
+                            <option value="Fashion">Sustainable Fashion</option>
+                            <option value="Biodiversity">Biodiversity & Nature</option>
+                            <option value="Plastic">Plastics & Oceans</option>
+                            <option value="Transportation">Sustainable Transport</option>
+                            <option value="Consumption">Mindful Consumption</option>
+                            <option value="Green Homes">Green Homes & Living</option>
+                            <option value="Climate">Climate Awareness</option>
+                        </select>
+
+                        <div class="search-bar">
+                            <i data-lucide="search"></i>
+                            <input type="text" id="topic-search-input" placeholder="Search lessons by keyword, topic, or habit..." oninput="EcoLearning.renderTopics()">
+                        </div>
+                    </div>
+
+                    <div class="features-grid" id="topics-grid"></div>
+                </section>
+
+                <!-- 5. ECO MISSIONS VIEW -->
+                <section id="view-missions" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">Real-World Eco Missions</h1>
+                        <p class="subtitle">Verified, practical actions you can take right now at home, in college, or on campus to create measurable change.</p>
+                    </div>
+
+                    <!-- Personalized Focus Banner -->
+                    <div id="mission-focus-banner" class="hidden"></div>
+
+                    <div class="filter-bar">
+                        <select class="filter-select" id="mission-filter-category" onchange="EcoMissions.renderMissions()">
+                            <option value="all">All Categories (20 Missions)</option>
+                            <option value="Water">Water Conservation</option>
+                            <option value="Energy">Energy Efficiency</option>
+                            <option value="Waste">Waste & Segregation</option>
+                            <option value="E-Waste">E-Waste & Gadgets</option>
+                            <option value="Food">Food & Kitchen</option>
+                            <option value="Biodiversity">Biodiversity & Birds</option>
+                            <option value="Transportation">Transit & Commute</option>
+                            <option value="Plastics">Plastics & Reuse</option>
+                            <option value="Fashion">Fashion Pause</option>
+                            <option value="Green Living">Non-Toxic Cleaning</option>
+                            <option value="Consumption">Bulk Refill</option>
+                        </select>
+
+                        <select class="filter-select" id="mission-filter-difficulty" onchange="EcoMissions.renderMissions()">
+                            <option value="all">All Difficulties</option>
+                            <option value="Easy">Easy (5-10 mins)</option>
+                            <option value="Medium">Medium (15-30 mins)</option>
+                            <option value="Hard">Hard (Multi-Day)</option>
+                        </select>
+
+                        <select class="filter-select" id="mission-filter-status" onchange="EcoMissions.renderMissions()">
+                            <option value="all">All Statuses</option>
+                            <option value="Available">Available</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <div class="features-grid" id="missions-grid"></div>
+                </section>
+
+                <!-- 6. CREATE WITH WHAT YOU HAVE VIEW -->
+                <section id="view-create" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">Create With What You Have</h1>
+                        <p class="subtitle">Select the scrap materials available in your house to get instant ₹0 creative upcycling project recommendations.</p>
+                    </div>
+
+                    <div class="card" style="margin-bottom: 2rem; background: var(--warm-cream);">
+                        <h4 style="margin-bottom: 0.85rem; font-size: 1.05rem;">Select Materials You Have at Home:</h4>
+                        <div class="materials-selector" id="materials-chips"></div>
+
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                            <select class="filter-select" id="project-filter-diff" onchange="EcoCreate.filterCreativeProjects()">
+                                <option value="all">All Difficulties</option>
+                                <option value="Easy">Easy</option>
+                                <option value="Medium">Medium</option>
+                            </select>
+
+                            <select class="filter-select" id="project-filter-time" onchange="EcoCreate.filterCreativeProjects()">
+                                <option value="all">All Durations</option>
+                                <option value="quick">Under 15 mins</option>
+                                <option value="medium">15 - 30 mins</option>
+                            </select>
+
+                            <select class="filter-select" id="project-filter-category" onchange="EcoCreate.filterCreativeProjects()">
+                                <option value="all">All Project Types</option>
+                                <option value="Desk">Desk & Study</option>
+                                <option value="Garden">Home & Garden</option>
+                                <option value="Fashion">Fashion & Bags</option>
+                                <option value="Kitchen">Kitchen & Dining</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="features-grid" id="creative-projects-grid"></div>
+                </section>
+
+                <!-- 7. ECOLENS VIEW -->
+                <section id="view-ecolens" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">EcoLens Visual Disposal Scanner</h1>
+                        <p class="subtitle">Upload a photo, drag & drop, or search 24+ everyday waste items for verified municipal segregation and circular upcycling guides.</p>
+                    </div>
+
+                    <div class="card" style="margin-bottom: 2rem;">
+                        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+                            <div class="ecolens-search-wrapper" style="flex: 1; min-width: 260px;">
+                                <i data-lucide="search" class="ecolens-search-icon"></i>
+                                <input type="text" id="ecolens-search" class="ecolens-search-input" placeholder="Type any item (e.g. old charger, greasy pizza box, batteries, clothes)..." oninput="EcoLens.debounceSearch()">
+                                <button type="button" id="ecolens-clear-btn" class="ecolens-clear-btn" style="display: none;" onclick="EcoLens.clearSearch()" title="Clear search">✕</button>
+                            </div>
+
+                            <input type="file" id="ecolens-file-input" accept="image/*" style="display: none;" onchange="EcoLens.handleImageUpload(event)">
+                            <button class="btn btn-secondary" onclick="document.getElementById('ecolens-file-input').click()">
+                                <i data-lucide="camera"></i> <span>Upload Photo</span>
+                            </button>
+                            <button class="btn btn-primary" onclick="EcoLens.searchEcoLens()">
+                                <span>Search Catalog</span>
+                            </button>
+                        </div>
+
+                        <!-- Dropzone & Quick Samples Row -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 1.25rem;">
+                            <div class="lens-dropzone" id="lens-dropzone" onclick="document.getElementById('ecolens-file-input').click()">
+                                <i data-lucide="upload-cloud" style="width: 28px; height: 28px; color: var(--forest-green); margin-bottom: 0.35rem;"></i>
+                                <strong style="display: block; font-size: 0.95rem; color: var(--forest-green);">Drag & Drop photo here or click to browse</strong>
+                                <span style="font-size: 0.78rem; color: var(--text-muted);">Supports JPG, PNG, WEBP, and Camera capture</span>
+                            </div>
+
+                            <div style="background: var(--warm-cream); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.15rem; display: flex; flex-direction: column; justify-content: center;">
+                                <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.35rem;">
+                                    <i data-lucide="sparkles" style="width: 14px;"></i> Quick Scan Samples:
+                                </span>
+                                <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                                    <span class="lens-sample-chip" onclick="EcoLens.scanSampleItem('plastic bottles')">🥤 Plastic Bottle</span>
+                                    <span class="lens-sample-chip" onclick="EcoLens.scanSampleItem('old charger')">🔌 USB Cable</span>
+                                    <span class="lens-sample-chip" onclick="EcoLens.scanSampleItem('old clothes')">👖 Torn Denim</span>
+                                    <span class="lens-sample-chip" onclick="EcoLens.scanSampleItem('glass jars')">🫙 Glass Jar</span>
+                                    <span class="lens-sample-chip" onclick="EcoLens.scanSampleItem('batteries')">🔋 AA Battery</span>
+                                    <span class="lens-sample-chip" onclick="EcoLens.scanSampleItem('greasy pizza boxes')">🍕 Pizza Box</span>
+                                    <span class="lens-sample-chip" onclick="EcoLens.scanSampleItem('aluminum cans')">🥫 Aluminum Can</span>
+                                    <span class="lens-sample-chip" onclick="EcoLens.scanSampleItem('coffee grounds')">☕ Coffee Grounds</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category Filter Pills -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.25rem; align-items: center;">
+                            <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Quick Topics:</span>
+                            <button class="btn btn-text btn-sm" onclick="EcoLens.quickSearch('all')">All Items</button>
+                            <button class="btn btn-text btn-sm" onclick="EcoLens.quickSearch('plastic')">Plastics</button>
+                            <button class="btn btn-text btn-sm" onclick="EcoLens.quickSearch('e-waste')">E-Waste</button>
+                            <button class="btn btn-text btn-sm" onclick="EcoLens.quickSearch('food')">Food & Kitchen</button>
+                            <button class="btn btn-text btn-sm" onclick="EcoLens.quickSearch('clothes')">Fashion</button>
+                            <button class="btn btn-text btn-sm" onclick="EcoLens.quickSearch('glass')">Glass</button>
+                            <button class="btn btn-text btn-sm" onclick="EcoLens.quickSearch('hazardous')">Hazardous</button>
+                        </div>
+                    </div>
+
+                    <div id="ecolens-results"></div>
+                </section>
+
+                <!-- 8. MY PROGRESS VIEW -->
+                <section id="view-progress" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">My Impact Analytics</h1>
+                        <p class="subtitle">Track your calculated environmental progress, verified actions, domain mastery, and milestone badges.</p>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <span class="label">Total EcoXP</span>
+                            <span class="value" id="prog-xp">0 XP</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Topics Mastered</span>
+                            <span class="value" id="prog-topics">0 / 25</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Missions Completed</span>
+                            <span class="value" id="prog-missions">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Upcycle Projects</span>
+                            <span class="value" id="prog-projects">0</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="label">Quiz Attempts</span>
+                            <span class="value" id="prog-quizzes">0</span>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Environmental Domain Mastery</h3>
+                    <div id="prog-category-bars" style="margin-bottom: 2.5rem;"></div>
+
+                    <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Achievement Milestone Badges (12)</h3>
+                    <div class="badges-grid" id="prog-badges-grid"></div>
+                </section>
+
+                <!-- 9. BOOKMARKS VIEW -->
+                <section id="view-bookmarks" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">My Saved Bookmarks</h1>
+                        <p class="subtitle">Quick 1-click access to all your saved Learning Topics, Missions, DIY Upcycling Projects, and EcoLens disposal guides.</p>
+                    </div>
+
+                    <div class="bookmark-tabs-bar" style="margin-bottom: 1.5rem;">
+                        <button class="bookmark-tab-btn active" data-tab="all" onclick="EcoBookmarks.filterBookmarksByTab('all')">All Bookmarks</button>
+                        <button class="bookmark-tab-btn" data-tab="topics" onclick="EcoBookmarks.filterBookmarksByTab('topics')">Learning Topics</button>
+                        <button class="bookmark-tab-btn" data-tab="missions" onclick="EcoBookmarks.filterBookmarksByTab('missions')">Eco Missions</button>
+                        <button class="bookmark-tab-btn" data-tab="projects" onclick="EcoBookmarks.filterBookmarksByTab('projects')">Upcycling Crafts</button>
+                        <button class="bookmark-tab-btn" data-tab="ecolens" onclick="EcoBookmarks.filterBookmarksByTab('ecolens')">EcoLens Guides</button>
+                    </div>
+
+                    <div class="features-grid" id="bookmarks-grid"></div>
+                </section>
+
+                <!-- 10. PROFILE VIEW -->
+                <section id="view-profile" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">My Eco Profile</h1>
+                        <p class="subtitle">Your environmental identity, calculated impact statistics, and milestone achievements.</p>
+                    </div>
+
+                    <!-- Profile Header Card -->
+                    <div class="card" style="padding: 0; overflow: hidden; margin-bottom: 2rem;">
+                        <div class="profile-cover"></div>
+                        <div style="padding: 0 2rem 2rem 2rem; position: relative;">
+                            <div class="user-avatar profile-avatar-large" id="profile-avatar"></div>
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 1rem; flex-wrap: wrap; gap: 1rem;">
+                                <div>
+                                    <h2 style="font-size: 1.6rem; color: var(--accent-primary); margin-bottom: 0.2rem;" id="profile-name"></h2>
+                                    <span style="font-size: 0.9rem; color: var(--text-muted);" id="profile-email"></span>
+                                    <p style="margin-top: 0.65rem; font-size: 0.92rem; color: var(--text-main); max-width: 540px;" id="profile-bio"></p>
+                                </div>
+                                <div>
+                                    <span class="badge badge-category" style="font-size: 0.9rem; padding: 0.45rem 1rem;" id="profile-level-badge">
+                                        Level 1 • Seedling
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Level XP Progress Bar -->
+                            <div style="margin-top: 1.5rem; background: var(--warm-cream); padding: 1rem 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem;">
+                                    <span>Level Advancement Progress</span>
+                                    <span id="profile-xp-text" style="color: var(--forest-green);">0 / 150 XP</span>
+                                </div>
+                                <div class="progress-bar-container" style="height: 10px;">
+                                    <div class="progress-fill" id="profile-xp-bar" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Milestone Badges Grid -->
+                    <h3 style="margin-bottom: 1rem; font-size: 1.25rem;">Achievement Badges Showcase</h3>
+                    <div class="badges-grid" id="profile-badges-grid" style="margin-bottom: 2.5rem;"></div>
+
+                    <!-- Edit Profile Settings Card -->
+                    <div class="card profile-editor-card" style="max-width: 680px;">
+                        <div class="profile-editor-header">
+                            <div>
+                                <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem; color: var(--text-main);">Edit Profile Information</h3>
+                                <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">Update your public identity and sustainability bio across the platform.</p>
+                            </div>
+                        </div>
+
+                        <form id="edit-profile-form" onsubmit="EcoProfile.saveProfileChanges(event)">
+                            <div class="profile-avatar-row">
+                                <div class="user-avatar profile-avatar-preview" id="edit-avatar-preview"></div>
+                                <div class="profile-avatar-info">
+                                    <strong style="color: var(--text-main); font-size: 0.95rem;">Avatar Preview</strong>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="edit-profile-name">Full Name <span style="color: #ef4444;">*</span></label>
+                                <input type="text" id="edit-profile-name" required placeholder="Enter your full name">
+                                <span class="input-helper">This name is displayed on your dashboard, profile, and certificates.</span>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="edit-profile-email">Email Address <span class="badge badge-category" style="font-size: 0.72rem; padding: 0.15rem 0.5rem; margin-left: 0.4rem;">Read-only</span></label>
+                                <input type="email" id="edit-profile-email" disabled readonly style="opacity: 0.75; cursor: not-allowed;">
+                                <span class="input-helper">Account email cannot be modified in local session mode.</span>
+                            </div>
+
+                            <div class="input-group">
+                                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                                    <label for="edit-profile-bio">Bio / Environmental Philosophy</label>
+                                    <span style="font-size: 0.78rem; color: var(--text-muted);"><span id="bio-char-count">0</span> / 160</span>
+                                </div>
+                                <textarea id="edit-profile-bio" rows="3" maxlength="160" placeholder="Share your green passion or sustainability goals..." oninput="EcoProfile.updateBioCharCount()"></textarea>
+                                <span class="input-helper">Brief statement shown on your public profile card (maximum 160 characters).</span>
+                            </div>
+
+                            <div class="profile-editor-actions">
+                                <button type="button" class="btn btn-outline" onclick="EcoProfile.cancelProfileEdit()">
+                                    <i data-lucide="x"></i> Cancel
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="btn-save-profile">
+                                    <i data-lucide="check"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- 11. SETTINGS VIEW -->
+                <section id="view-settings" class="view-section hidden">
+                    <div style="margin-bottom: 2rem;">
+                        <h1 style="font-size: 2rem; margin-bottom: 0.25rem;">Application Settings</h1>
+                        <p class="subtitle">Customize how EcoQuest looks and feels.</p>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 1.75rem; max-width: 860px;">
+                        <!-- Accent Color Palette Card -->
+                        <div class="card">
+                            <h3 style="margin-bottom: 0.5rem; font-size: 1.2rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <i data-lucide="palette" style="width: 20px; color: var(--accent-primary);"></i> Accent Color Palette
+                            </h3>
+                            <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+                                Choose an environmental tone for buttons, highlights, and active elements across the app.
+                            </p>
+
+                            <div class="accent-palette-grid">
+                                <div class="accent-swatch-card" data-accent="forest" data-palette="forest" onclick="applyAccent('forest')">
+                                    <input type="radio" name="settings-accent" value="forest" style="display:none;">
+                                    <div class="accent-color-circle" style="background: linear-gradient(135deg, #059669, #10b981);"></div>
+                                    <div class="accent-swatch-info">
+                                        <span class="accent-name">Forest</span>
+                                        <span class="accent-desc">Emerald green (Default)</span>
+                                    </div>
+                                    <i data-lucide="check-circle-2" class="accent-check-icon"></i>
+                                </div>
+
+                                <div class="accent-swatch-card" data-accent="ocean" data-palette="ocean" onclick="applyAccent('ocean')">
+                                    <input type="radio" name="settings-accent" value="ocean" style="display:none;">
+                                    <div class="accent-color-circle" style="background: linear-gradient(135deg, #0284c7, #38bdf8);"></div>
+                                    <div class="accent-swatch-info">
+                                        <span class="accent-name">Ocean</span>
+                                        <span class="accent-desc">Coastal sky & cyan</span>
+                                    </div>
+                                    <i data-lucide="check-circle-2" class="accent-check-icon"></i>
+                                </div>
+
+                                <div class="accent-swatch-card" data-accent="earth" data-palette="earth" onclick="applyAccent('earth')">
+                                    <input type="radio" name="settings-accent" value="earth" style="display:none;">
+                                    <div class="accent-color-circle" style="background: linear-gradient(135deg, #d97706, #fbbf24);"></div>
+                                    <div class="accent-swatch-info">
+                                        <span class="accent-name">Earth</span>
+                                        <span class="accent-desc">Terracotta & amber</span>
+                                    </div>
+                                    <i data-lucide="check-circle-2" class="accent-check-icon"></i>
+                                </div>
+
+                                <div class="accent-swatch-card" data-accent="sage" data-palette="sage" onclick="applyAccent('sage')">
+                                    <input type="radio" name="settings-accent" value="sage" style="display:none;">
+                                    <div class="accent-color-circle" style="background: linear-gradient(135deg, #16a34a, #4ade80);"></div>
+                                    <div class="accent-swatch-info">
+                                        <span class="accent-name">Sage</span>
+                                        <span class="accent-desc">Botanical olive & mint</span>
+                                    </div>
+                                    <i data-lucide="check-circle-2" class="accent-check-icon"></i>
+                                </div>
+
+                                <div class="accent-swatch-card" data-accent="sunset" data-palette="sunset" onclick="applyAccent('sunset')">
+                                    <input type="radio" name="settings-accent" value="sunset" style="display:none;">
+                                    <div class="accent-color-circle" style="background: linear-gradient(135deg, #ea580c, #fb923c);"></div>
+                                    <div class="accent-swatch-info">
+                                        <span class="accent-name">Sunset</span>
+                                        <span class="accent-desc">Warm coral & rust</span>
+                                    </div>
+                                    <i data-lucide="check-circle-2" class="accent-check-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- =======================================================================
+         MODALS
+    ========================================================================= -->
+
+    <!-- 1. PROJECT INSTRUCTIONS MODAL -->
+    <div id="project-modal" class="modal-overlay hidden" onclick="if(event.target === this) closeModal('project-modal')">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; margin-bottom: 1.5rem;">
+                <div>
+                    <h2 id="modal-project-title" style="font-size: 1.45rem; margin-bottom: 0.35rem; color: var(--forest-green);">Project Title</h2>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <span id="modal-project-category" class="badge badge-category">Category</span>
+                        <span id="modal-project-meta" style="font-size: 0.85rem; color: var(--text-muted);">15 mins • ₹0</span>
+                    </div>
+                </div>
+                <button onclick="closeModal('project-modal')" class="btn btn-text" style="padding: 0.4rem;" title="Close Modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 0.85rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem;">
+                <strong style="color: #991b1b; font-size: 0.88rem; display: block; margin-bottom: 0.2rem;"><i data-lucide="alert-triangle" style="width:14px; vertical-align: middle;"></i> Safety Note:</strong>
+                <p id="modal-project-safety" style="font-size: 0.88rem; color: #7f1d1d; margin: 0;">Take care while handling sharp tools.</p>
+            </div>
+
+            <h4 style="margin-bottom: 0.65rem;">Materials Needed:</h4>
+            <div id="modal-project-materials" style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;"></div>
+
+            <h4 style="margin-bottom: 0.75rem;">Step-by-Step Upcycling Guide:</h4>
+            <ol id="modal-project-steps" style="padding-left: 1.5rem; color: var(--text-main); margin-bottom: 1.5rem; line-height: 1.6;"></ol>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1.25rem; margin-top: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+                <button class="btn btn-text" onclick="closeModal('project-modal')">Close Guide</button>
+                <div style="display: flex; gap: 0.75rem;">
+                    <button class="btn btn-outline" id="modal-btn-save-project" onclick="EcoCreate.toggleSaveCurrentProject()">
+                        <i data-lucide="bookmark"></i> Save Project
+                    </button>
+                    <button class="btn btn-primary" id="modal-btn-complete-project" onclick="EcoCreate.completeCurrentProject()">
+                        <i data-lucide="check-circle"></i> Mark Completed (+XP)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. TOPIC DETAIL LEARNING MODAL -->
+    <div id="topic-modal" class="modal-overlay hidden" onclick="if(event.target === this) closeModal('topic-modal')">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; margin-bottom: 1.5rem;">
+                <div>
+                    <span id="modal-topic-category" class="badge badge-category" style="margin-bottom: 0.35rem;">Category</span>
+                    <h2 id="modal-topic-title" style="font-size: 1.45rem; color: var(--forest-green); margin-bottom: 0.25rem;">Topic Title</h2>
+                    <span id="modal-topic-meta" style="font-size: 0.85rem; color: var(--text-muted);">6 mins • Beginner</span>
+                </div>
+                <button onclick="closeModal('topic-modal')" class="btn btn-text" style="padding: 0.4rem;" title="Close Modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <h4 style="margin-bottom: 0.5rem;">Why It Matters:</h4>
+            <p id="modal-topic-desc" style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;"></p>
+
+            <h4 style="margin-bottom: 0.65rem;">Core Environmental Principles:</h4>
+            <ul id="modal-topic-keypoints" style="padding-left: 1.5rem; margin-bottom: 1.5rem;"></ul>
+
+            <h4 style="margin-bottom: 0.65rem;">Practical Everyday Applications:</h4>
+            <div id="modal-topic-examples" style="margin-bottom: 1.5rem;"></div>
+
+            <!-- Interactive Knowledge Check -->
+            <div id="modal-topic-knowledge-check"></div>
+
+            <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 1.25rem; margin-top: 1.5rem;">
+                <button class="btn btn-text" onclick="closeModal('topic-modal')">Close Lesson</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. QUIZ ANSWER REVIEW MODAL -->
+    <div id="quiz-review-modal" class="modal-overlay hidden" onclick="if(event.target === this) closeModal('quiz-review-modal')">
+        <div class="modal-content" style="max-width: 760px;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; margin-bottom: 1.5rem;">
+                <div>
+                    <h2 style="font-size: 1.45rem; color: var(--forest-green); margin-bottom: 0.25rem;">Question-by-Question Review</h2>
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Inspect your answers and educational explanations.</span>
+                </div>
+                <button onclick="closeModal('quiz-review-modal')" class="btn btn-text" style="padding: 0.4rem;" title="Close Modal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <div id="quiz-review-list"></div>
+
+            <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 1.25rem; margin-top: 1.5rem;">
+                <button class="btn btn-primary btn-sm" onclick="closeModal('quiz-review-modal')">Done Reviewing</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. GLOBAL DISCOVERY SEARCH MODAL (Ctrl+K) -->
+    <div id="global-search-modal" class="modal-overlay hidden" onclick="if(event.target === this) closeGlobalSearch()">
+        <div class="modal-content" style="max-width: 600px; padding: 1.75rem;">
+            <div style="display: flex; gap: 0.75rem; align-items: center; border-bottom: 1.5px solid var(--border-color); padding-bottom: 0.85rem; margin-bottom: 1rem;">
+                <i data-lucide="search" style="color: var(--forest-green); width: 20px;"></i>
+                <input type="text" id="global-search-input" placeholder="Search Topics, Missions, Projects, EcoLens..." style="border: none; outline: none; font-size: 1.05rem; width: 100%; font-family: inherit;" oninput="handleGlobalSearchInput(this.value)">
+                <span style="font-size: 0.75rem; background: var(--warm-cream); border: 1px solid var(--border-color); padding: 0.2rem 0.5rem; border-radius: 4px; color: var(--text-muted);">ESC</span>
+            </div>
+
+            <div id="global-search-results" style="max-height: 380px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+</body>
+</html>

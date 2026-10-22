@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoQuest | Learn. Create. Act.</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/auth.js"></script>
+</head>
+<body>
+    <!-- Public Navigation -->
+    <nav class="public-nav">
+        <a href="index.html" class="brand-logo">
+            <img src="assets/images/ecoquest-logo.png" alt="EcoQuest Logo" class="brand-logo-img">
+        </a>
+        <div class="nav-links">
+            <a href="#how-it-works">How It Works</a>
+            <a href="#public-topics">Explore Topics</a>
+            <a href="#public-create">Create With Waste</a>
+        </div>
+        <div class="auth-buttons" style="display: flex; gap: 0.75rem; align-items: center;">
+            <button class="btn btn-text" onclick="showAuthView('login')">Log In</button>
+            <button class="btn btn-primary btn-sm" onclick="showAuthView('register')">Start Your Journey</button>
+        </div>
+    </nav>
+
+    <!-- Main Content (Landing Page) -->
+    <main id="landing-page">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="hero-text">
+                <span class="hero-tag"><i data-lucide="sprout" style="width: 15px; display: inline-block; vertical-align: middle;"></i> Environmental Learning & Action</span>
+                <h1>Make everyday choices matter.</h1>
+                <p>EcoQuest connects diagnostic environmental education with everyday life, practical creativity, ₹0 upcycling activities, real-world eco missions, and measurable impact.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="showAuthView('register')">
+                        <i data-lucide="compass"></i> Start Your Eco Journey
+                    </button>
+                    <button class="btn btn-outline" onclick="scrollToSection('how-it-works')">
+                        Explore How It Works
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-card">
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.25rem;"><i data-lucide="package" style="color: var(--forest-green); vertical-align: middle;"></i> Before you throw it away...</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem;">Discover what everyday materials can become before reaching a municipal landfill.</p>
+                    <div style="display: flex; gap: 1rem; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+                        <div class="icon-container" style="background: var(--forest-green); color: white;">
+                            <i data-lucide="scissors"></i>
+                        </div>
+                        <div>
+                            <strong style="display: block; color: var(--text-main);">Cardboard Desk Organizer</strong>
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">15 mins • ₹0 Cost • Highly Useful</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Section 1: How EcoQuest Works -->
+        <section id="how-it-works" class="section-padding" style="background: var(--pure-white);">
+            <h2 class="section-title">How EcoQuest Works</h2>
+            <p class="section-subtitle">A proven 5-step framework connecting environmental knowledge with measurable daily action.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; text-align: center;">
+                <div class="card" style="background: var(--warm-cream);">
+                    <div class="icon-container" style="margin: 0 auto 1rem auto; width: 52px; height: 52px;">
+                        <i data-lucide="compass"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.35rem;">1. Discover</h4>
+                    <p style="font-size: 0.88rem; color: var(--text-muted);">Take the scenario-based EcoIQ assessment to benchmark your awareness strengths.</p>
+                </div>
+                <div class="card" style="background: var(--warm-cream);">
+                    <div class="icon-container" style="margin: 0 auto 1rem auto; width: 52px; height: 52px;">
+                        <i data-lucide="book-open"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.35rem;">2. Learn</h4>
+                    <p style="font-size: 0.88rem; color: var(--text-muted);">Explore 25 bite-sized, practical lessons on waste, energy, water, and circular habits.</p>
+                </div>
+                <div class="card" style="background: var(--warm-cream);">
+                    <div class="icon-container" style="margin: 0 auto 1rem auto; width: 52px; height: 52px;">
+                        <i data-lucide="scissors"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.35rem;">3. Create</h4>
+                    <p style="font-size: 0.88rem; color: var(--text-muted);">Select household scrap items to get instant ₹0 creative upcycling guides.</p>
+                </div>
+                <div class="card" style="background: var(--warm-cream);">
+                    <div class="icon-container" style="margin: 0 auto 1rem auto; width: 52px; height: 52px;">
+                        <i data-lucide="target"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.35rem;">4. Act</h4>
+                    <p style="font-size: 0.88rem; color: var(--text-muted);">Complete verifiable real-world missions at home, in college, or on campus.</p>
+                </div>
+                <div class="card" style="background: var(--warm-cream);">
+                    <div class="icon-container" style="margin: 0 auto 1rem auto; width: 52px; height: 52px;">
+                        <i data-lucide="bar-chart-2"></i>
+                    </div>
+                    <h4 style="margin-bottom: 0.35rem;">5. Measure</h4>
+                    <p style="font-size: 0.88rem; color: var(--text-muted);">Track your EcoXP, level milestones, completed projects, and verified green journey.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Explore Core Topics Preview -->
+        <section id="public-topics" class="section-padding" style="background: var(--warm-cream);">
+            <h2 class="section-title">Explore Core Environmental Modules</h2>
+            <p class="section-subtitle">No boring theoretical lectures. Real-world insights, interactive checks, and practical takeaways.</p>
+            
+            <div class="features-grid">
+                <div class="card">
+                    <div class="icon-container" style="margin-bottom: 1rem;"><i data-lucide="trash-2"></i></div>
+                    <h4 style="margin-bottom: 0.4rem;">Waste & Circular Economy</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55;">Master proper wet vs dry segregation and understand how recyclables are processed.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-container" style="margin-bottom: 1rem;"><i data-lucide="droplet"></i></div>
+                    <h4 style="margin-bottom: 0.4rem;">Water Stewardship</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55;">Discover hidden virtual water footprints in clothes and food while eliminating daily leaks.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-container" style="margin-bottom: 1rem;"><i data-lucide="zap"></i></div>
+                    <h4 style="margin-bottom: 0.4rem;">Energy & Vampire Power</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55;">Curb phantom electricity loads and optimize natural daylight in study spaces.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-container" style="margin-bottom: 1rem;"><i data-lucide="cpu"></i></div>
+                    <h4 style="margin-bottom: 0.4rem;">E-Waste & Digital Carbon</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55;">Safely recycle hazardous electronics and declutter energy-heavy cloud storage.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-container" style="margin-bottom: 1rem;"><i data-lucide="utensils"></i></div>
+                    <h4 style="margin-bottom: 0.4rem;">Food Waste & Composting</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55;">Prevent landfill methane emissions by rescuing wilted groceries and home composting.</p>
+                </div>
+                <div class="card">
+                    <div class="icon-container" style="margin-bottom: 1rem;"><i data-lucide="shirt"></i></div>
+                    <h4 style="margin-bottom: 0.4rem;">Circular Fashion</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.55;">Extend garment lifespans by 9+ months through mindful care, mending, and repurposing.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <button class="btn btn-primary" onclick="showAuthView('register')">Join EcoQuest to Unlock All 25 Lessons</button>
+            </div>
+        </section>
+
+        <!-- Section 3: Create With What You Have Preview -->
+        <section id="public-create" class="section-padding" style="background: var(--pure-white);">
+            <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+                <span class="badge badge-category" style="margin-bottom: 1rem;">Signature Feature</span>
+                <h2 class="section-title">Create With What You Have</h2>
+                <p class="section-subtitle">Got empty boxes, jars, or old shirts? Select what you have in your house, and EcoQuest will instantly score and filter step-by-step ₹0 projects.</p>
+                
+                <div class="card" style="padding: 2rem; text-align: left; background: var(--warm-cream); margin-top: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem;">Materials Available:</h4>
+                    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                        <span class="material-chip selected"><i data-lucide="package"></i> Cardboard</span>
+                        <span class="material-chip selected"><i data-lucide="droplet"></i> Plastic Bottles</span>
+                        <span class="material-chip"><i data-lucide="shirt"></i> Old Clothes</span>
+                        <span class="material-chip"><i data-lucide="coffee"></i> Glass Jars</span>
+                        <span class="material-chip"><i data-lucide="newspaper"></i> Newspaper</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1.25rem;">
+                        <span style="font-size: 0.92rem; color: var(--text-muted); font-weight: 500;">✓ Instant recommendations with safety notes & step-by-step guides</span>
+                        <button class="btn btn-secondary btn-sm" onclick="showAuthView('register')">Try It in App</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer style="padding: 3rem 6%; background: var(--pure-white); border-top: 1px solid var(--border-color); text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+            <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+                <img src="assets/images/ecoquest-logo.png" alt="EcoQuest" style="height: 38px; width: auto; object-fit: contain;">
+            </div>
+            <p>Learn. Create. Act. — Environmental Learning, Creativity & Real-World Action Platform</p>
+        </footer>
+    </main>
+
+    <!-- Authentication View (Login & Registration) -->
+    <main id="auth-page" class="hidden">
+        <div class="auth-container">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+                    <img src="assets/images/ecoquest-logo.png" alt="EcoQuest" style="height: 42px; width: auto; object-fit: contain;">
+                </div>
+                <h2 id="auth-title" style="font-size: 1.75rem; letter-spacing: -0.5px;">Start Your Journey</h2>
+                <p id="auth-subtitle" style="color: var(--text-muted); font-size: 0.95rem;">Join EcoQuest to discover your EcoIQ and take action.</p>
+            </div>
+
+            <!-- Feedback Banner -->
+            <div id="auth-feedback" class="auth-feedback"></div>
+            
+            <form id="auth-form" novalidate onsubmit="handleAuthSubmit(event)">
+                <div class="input-group" id="name-group">
+                    <label for="name-input">Full Name</label>
+                    <input type="text" id="name-input" placeholder="Your full name" autocomplete="name">
+                </div>
+
+                <div class="input-group">
+                    <label for="email-input">Email Address</label>
+                    <input type="email" id="email-input" placeholder="name@example.com" required autocomplete="email">
+                </div>
+
+                <div class="input-group">
+                    <label for="password-input">Password</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="password-input" placeholder="At least 6 characters" required autocomplete="current-password">
+                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('password-input', this)" title="Show/Hide Password">
+                            <i data-lucide="eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="input-group" id="confirm-password-group">
+                    <label for="confirm-password-input">Confirm Password</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="confirm-password-input" placeholder="Re-enter password" autocomplete="new-password">
+                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('confirm-password-input', this)" title="Show/Hide Password">
+                            <i data-lucide="eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;" id="auth-submit-btn">
+                    Register Account
+                </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color); font-size: 0.92rem; color: var(--text-muted);">
+                <span id="auth-switch-text">Already have an account?</span> 
+                <a href="javascript:void(0)" style="color: var(--forest-green); font-weight: 700; margin-left: 0.35rem;" onclick="toggleAuthMode()" id="auth-switch-link">Log In</a>
+            </div>
+
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="javascript:void(0)" onclick="showLandingView()" style="color: var(--text-muted); font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.3rem;">
+                    <i data-lucide="arrow-left" style="width: 14px;"></i> Back to Homepage
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        if (window.lucide) lucide.createIcons();
+
+        // Smooth Scroll Helper
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show/Hide Password Control
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            btn.innerHTML = `<i data-lucide="${isPassword ? 'eye-off' : 'eye'}"></i>`;
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // Auth Navigation & UI Toggle
+        let isLoginMode = false;
+
+        function showLandingView() {
+            document.getElementById('landing-page').classList.remove('hidden');
+            document.getElementById('auth-page').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showAuthView(mode) {
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('auth-page').classList.remove('hidden');
+            isLoginMode = (mode === 'login');
+            updateAuthUI();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            updateAuthUI();
+        }
+
+        function updateAuthUI() {
+            const nameGroup = document.getElementById('name-group');
+            const confirmGroup = document.getElementById('confirm-password-group');
+            const authTitle = document.getElementById('auth-title');
+            const authSubtitle = document.getElementById('auth-subtitle');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const switchText = document.getElementById('auth-switch-text');
+            const switchLink = document.getElementById('auth-switch-link');
+            const feedback = document.getElementById('auth-feedback');
+
+            if (feedback) feedback.className = 'auth-feedback';
+
+            if (isLoginMode) {
+                if (nameGroup) nameGroup.classList.add('hidden');
+                if (confirmGroup) confirmGroup.classList.add('hidden');
+                authTitle.textContent = 'Welcome Back';
+                authSubtitle.textContent = 'Log in to continue your environmental quest.';
+                submitBtn.textContent = 'Log In';
+                switchText.textContent = "Don't have an account?";
+                switchLink.textContent = 'Register';
+            } else {
+                if (nameGroup) nameGroup.classList.remove('hidden');
+                if (confirmGroup) confirmGroup.classList.remove('hidden');
+                authTitle.textContent = 'Start Your Journey';
+                authSubtitle.textContent = 'Join EcoQuest to discover your EcoIQ and take action.';
+                submitBtn.textContent = 'Register Account';
+                switchText.textContent = 'Already have an account?';
+                switchLink.textContent = 'Log In';
+            }
+            if (window.lucide) lucide.createIcons();
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            const feedback = document.getElementById('auth-feedback');
+            const name = document.getElementById('name-input')?.value;
+            const email = document.getElementById('email-input')?.value;
+            const password = document.getElementById('password-input')?.value;
+            const confirm = document.getElementById('confirm-password-input')?.value;
+
+            if (feedback) {
+                feedback.className = 'auth-feedback';
+                feedback.textContent = '';
+            }
+
+            if (isLoginMode) {
+                const res = await window.EcoAuth.loginUser(email, password);
+                if (res.success) {
+                    feedback.className = 'auth-feedback success';
+                    feedback.textContent = 'Login successful! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = 'app.html';
+                    }, 400);
+                } else {
+                    feedback.className = 'auth-feedback error';
+                    feedback.textContent = res.message;
+                }
+            } else {
+                const res = await window.EcoAuth.registerUser(name, email, password, confirm);
+                if (res.success) {
+                    feedback.className = 'auth-feedback success';
+                    feedback.textContent = 'Account created successfully! Redirecting...';
+                    setTimeout(() => {
+                        window.location.href = 'app.html';
+                    }, 400);
+                } else {
+                    feedback.className = 'auth-feedback error';
+                    feedback.textContent = res.message;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
