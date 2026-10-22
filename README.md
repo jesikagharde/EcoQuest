@@ -1,210 +1,311 @@
 # EcoQuest — Environmental Learning & Real-World Action Platform
 
 > **Final Internship Project**  
-> *Learn. Create. Act.* — A lightweight, client-side web application connecting diagnostic environmental education with ₹0 DIY upcycling activities, real-world action missions, and estimated personal environmental impact tracking.
+> *Learn. Create. Act.* — A browser-based environmental learning and sustainability platform combining EcoIQ assessments, DIY upcycling activities, self-tracked eco missions, and estimated environmental impact tracking.
 
 ---
 
-## 🌟 Key Highlights & Architectural Overview
+## 🌟 Key Highlights
 
-- **Pure Web Stack**: Built with standard **HTML5**, **CSS3**, and **Vanilla JavaScript (ES6+)**.
-- **Client-Side & Lightweight**: Core functionality runs in the browser using HTML, CSS and JavaScript, with no backend or external AI API required.
-- **Zero API Keys Required**: All decision algorithms, recommendation engines, quiz randomizers, and progress calculations execute locally in real-time.
-- **Stateful Persistence & Safe Migrations**: Synchronizes user profiles, assessment histories, topic masteries, and bookmarks through `localStorage` with automated schema migration.
-- **Responsive & Accessible**: Optimized across desktop (1920px–1280px), tablet (1024px–768px), and mobile (430px–360px) with off-canvas drawers and keyboard navigation (`Ctrl+K` Global Discovery).
+- **Frontend-Only Application:** Built with HTML5, CSS3, and Vanilla JavaScript (ES6+).
+- **No Backend Required:** Core features run in the browser without a server-side database.
+- **No External AI API Required:** Learning activities, assessments, recommendations, and calculations use application logic and bundled datasets.
+- **Browser-Based Data Storage:** Uses `localStorage` to retain supported profile information, assessment history, bookmarks, learning progress, and other application data.
+- **Personalized Learning:** Connects assessments, learning activities, and recorded progress to relevant recommendations.
+- **Estimated Environmental Impact:** Presents estimates based on recorded activities; these are not independently measured or verified.
+- **Responsive Design:** Designed for desktop, tablet, and mobile screens.
+- **Customizable Appearance:** Includes a light theme with five accent color palettes.
+
+**Data note:** Information stored in `localStorage` belongs to the current browser and origin. It is not automatically synchronized across devices, and clearing browser storage may remove saved data.
 
 ---
 
-## 📁 Professional Directory Structure
+## 📁 Project Structure
 
 ```text
-EcoQuest/
-│
-├── index.html                  # Public marketing landing page & authentication portal
-├── app.html                    # Main authenticated application shell & SPA dashboard
-├── README.md                   # Comprehensive internship evaluation documentation
-├── test-validation.js          # Automated unit verification test suite
+ECOQUEST/
+├── .gitignore
+├── index.html
+├── app.html
+├── LICENSE
+├── README.md
+├── test-validation.js
 │
 ├── assets/
 │   ├── css/
-│   │   └── style.css           # Design tokens, Light Theme accent variables, 3D card physics
+│   │   └── style.css
 │   │
-│   ├── js/
-│   │   ├── app.js              # Master application controller, routing, & accent engine
-│   │   ├── storage.js          # LocalStorage schema manager & migration engine
-│   │   ├── auth.js             # Client-side authentication & session handling
-│   │   ├── quiz.js             # EcoIQ assessment platform, randomizer, streak & history
-│   │   ├── learning.js         # 25-module environmental library with knowledge checks
-│   │   ├── missions.js         # 20 real-world action missions with estimated impacts
-│   │   ├── create.js           # Multi-material DIY upcycling recommendation engine
-│   │   ├── ecolens.js          # Disposal catalog search, photo scanner & 24 municipal streams
-│   │   ├── bookmarks.js        # Multi-category unified bookmarking system
-│   │   ├── profile.js          # Profile dashboard with estimated personal impact tracking
-│   │   └── progress.js         # Domain mastery progression & 12 milestone badges
+│   ├── images/
+│   │   ├── ecoquest-logo.png
+│   │   ├── ecoquest-mark.png
+│   │   └── favicon.png
 │   │
-│   └── images/
-│       ├── ecoquest-logo.png   # Official EcoQuest logo
-│       ├── ecoquest-mark.png   # Standalone emblem for collapsed navigation
-│       └── favicon.png         # Web browser favicon
+│   └── js/
+│       ├── app.js
+│       ├── auth.js
+│       ├── bookmarks.js
+│       ├── create.js
+│       ├── ecolens.js
+│       ├── learning.js
+│       ├── missions.js
+│       ├── profile.js
+│       ├── progress.js
+│       ├── quiz.js
+│       └── storage.js
 │
 └── data/
-    ├── topics.js               # 25 in-depth environmental learning topics
-    ├── ecoiq.js                # 60+ scenario-based quiz questions across 12 categories
-    ├── missions.js             # 20 actionable real-world missions with impact notes
-    ├── creative-projects.js    # 16 DIY upcycling project guides & materials definitions
-    ├── ecolens.js              # 24 municipal waste segregation catalog decisions
-    ├── badges.js               # 12 milestone badges
-    ├── journey.js              # 8 dynamic progression roadmap stages
-    └── index.js                # Unified dataset repository assembly
+    ├── badges.js
+    ├── creative-projects.js
+    ├── ecoiq.js
+    ├── ecolens.js
+    ├── index.js
+    ├── journey.js
+    ├── missions.js
+    └── topics.js
 ```
 
 ---
 
-## 🚀 Core Features & Modules
+## 🚀 Core Features
 
 ### 1. 🧠 EcoIQ Assessment Platform
-- **60+ Scenario-Based Questions** across 12 core sustainability domains:
-  1. *Waste & Circular Living*
-  2. *Water Conservation*
-  3. *Energy & Climate*
-  4. *Food & Sustainable Eating*
-  5. *E-Waste & Technology*
-  6. *Sustainable Fashion*
-  7. *Biodiversity & Wildlife*
-  8. *Plastic & Oceans*
-  9. *Sustainable Transportation*
-  10. *Sustainable Consumption*
-  11. *Green Homes & Everyday Living*
-  12. *Climate Awareness*
-- **Quiz Modes**:
-  - **Quick Eco Check**: 10 randomized, category-balanced questions.
-  - **Full EcoIQ Benchmark**: 20 comprehensive scenario questions.
-  - **12 Category Deep Dives**: 5 specialized questions per category.
-- **Engagement Mechanics**: In-quiz streak tracker (e.g. `🔥 3 in a row!`), difficulty badges, and timer benchmarks.
-- **Post-Assessment Actions**:
-  - `[Review Answers]`: Detailed modal inspecting chosen vs correct answers and educational rationales.
-  - `[Retake This Assessment]`: Retries the exact same question IDs in the exact same sequence.
-  - `[Start New Assessment]`: Generates a fresh randomized set from the pool.
-- **Assessment History**: Preserves historical attempts with dates, scores, performance tiers, and 1-click review/retake options.
+
+Explore environmental knowledge through scenario-based questions across 12 sustainability categories.
+
+**Assessment options include:**
+- Quick Eco Check
+- Full EcoIQ Benchmark
+- Category-specific assessments
+
+**Topics include:**
+1. Waste & Circular Living
+2. Water Conservation
+3. Energy & Climate
+4. Food & Sustainable Eating
+5. E-Waste & Technology
+6. Sustainable Fashion
+7. Biodiversity & Wildlife
+8. Plastic & Oceans
+9. Sustainable Transportation
+10. Sustainable Consumption
+11. Green Homes & Everyday Living
+12. Climate Awareness
+
+**Features:**
+- Answer feedback and educational explanations.
+- Assessment scores and performance tiers.
+- Assessment history and answer review.
+- Options to retake assessments or start new ones.
+- Randomized questions and engagement features.
+
+### 2. 📚 Environmental Knowledge Library
+
+Explore environmental lessons covering topics such as waste segregation, water conservation, energy consumption, electronic waste, microplastics, biodiversity, sustainable farming, and passive solar design.
+
+**Features:**
+- Structured learning modules.
+- Interactive knowledge checks.
+- Learning progress tracking.
+- Experience points (XP) for eligible activities.
+- Practical examples that connect environmental knowledge with everyday decisions.
+
+### 3. 🎯 Eco Missions
+
+Turn environmental awareness into practical everyday actions.
+
+**Example missions:**
+- 5-Minute Tap Leak Audit
+- Standby Vampire Power Hunt
+- Zero-Packaging Lunch
+- Dedicated E-Waste Box
+
+**Features:**
+- Available, in-progress, completed, and skipped mission states.
+- User-recorded mission completion.
+- Estimated environmental impact.
+- Recommendations based on learning interests and progress.
+- Progress and reward tracking.
+
+Mission completion is self-reported by the user; the application does not independently verify that an action occurred.
+
+### 4. ✂️ Create With What You Have
+
+Discover creative ways to reuse everyday materials instead of immediately discarding them.
+
+**Example materials:**
+- Cardboard
+- Plastic bottles
+- Denim
+- Jars
+- Newspapers
+- Cans
+- Bubble wrap
+- Egg cartons
+
+**Features:**
+- Material-selection filters.
+- Project recommendations based on selected materials.
+- Step-by-step instructions.
+- Material checklists and safety guidance.
+- Bookmarks and completion progress.
+
+This feature encourages practical, accessible upcycling using materials people may already have.
+
+### 5. 🔍 EcoLens — Disposal Assistant
+
+Find disposal guidance using the application's built-in waste catalog.
+
+**Features:**
+- Search across supported waste items.
+- Image upload and drag-and-drop interactions.
+- Simulated scanning animation and sample previews.
+- Catalog-based disposal recommendations.
+- General guidance for items not found in the catalog.
+
+**Important:** EcoLens does not currently perform AI-powered image recognition. The scanning animation is a visual interaction, and disposal recommendations rely on the built-in catalog and application rules. Automatic identification of waste from uploaded images could be introduced as a future enhancement.
+
+Waste-management rules can vary by location. Where available, follow guidance from your local municipal authority.
+
+### 6. 🗺️ My Eco Journey
+
+Progress through eight sustainability learning stages based on recorded learning and activities.
+
+1. **Eco Foundations** — Build basic environmental awareness.
+2. **Waste & Circular Living** — Explore waste segregation and reuse.
+3. **Water Stewardship** — Learn water conservation and leak prevention.
+4. **Energy & Climate** — Explore energy efficiency and climate-friendly habits.
+5. **Food & Sustainable Consumption** — Reduce food waste and make thoughtful consumption choices.
+6. **E-Waste & Sustainable Technology** — Learn about responsible electronic waste handling.
+7. **Biodiversity & Sustainable Living** — Explore biodiversity and environmentally conscious practices.
+8. **Community Leadership** — Encourage community participation and sustainable transportation.
+
+Progression reflects the assessments, learning activities, missions, and creative projects recorded by the application.
+
+### 7. 👤 Profile & Progress Dashboard
+
+Review personal learning activity and recorded sustainability progress.
+
+**Features include:**
+- Profile editing.
+- Learning and assessment history.
+- Progress indicators.
+- Achievement badges.
+- Recorded mission and project completion.
+- Estimated environmental impact, including supported measures such as water saved, waste diverted, and electricity reduced.
+
+Environmental impact figures are estimates based on application calculations, not direct measurements of real-world outcomes.
+
+### 8. 🎨 Personalization & Visual Design
+
+EcoQuest features a light-theme interface with customizable accent colors.
+
+**Available palettes:**
+- Forest Green
+- Ocean Teal
+- Earth Amber
+- Sage Botanical
+- Sunset Coral
+
+CSS custom properties help maintain consistent styling, while supported appearance preferences are saved in browser storage.
 
 ---
 
-### 2. 📚 Environmental Knowledge Library (25 Modules)
-- 25 structured lessons covering waste segregation, water audits, vampire loads, e-waste, microplastics, ocean acidification, cool roofs, regenerative farming, and passive solar design.
-- **Multi-Step Learning Flow**:
-  $$\text{Not Started} \longrightarrow \text{Started} \longrightarrow \text{Learning} \longrightarrow \text{Knowledge Check} \longrightarrow \text{Completed (+30 XP)}$$
-- Requires passing an interactive scenario-based Knowledge Check before awarding completion XP once.
+## 🛠️ Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| HTML5 | Page structure |
+| CSS3 | Responsive styling, visual design, and animations |
+| Vanilla JavaScript (ES6+) | Application logic and interactive features |
+| Browser `localStorage` | Local persistence of supported user data and progress |
+| Bundled JavaScript datasets | Learning content, questions, missions, projects, and waste catalog information |
+| Node.js | Optional: running the included validation script |
+
+EcoQuest does not require a backend, server-side database, or external AI API for its core features.
+
+Some externally hosted resources, if used, may require an internet connection.
 
 ---
 
-### 3. 🎯 Real-World Eco Missions (20 Missions)
-- 20 real-world action missions with self-tracked completion and impact estimates (e.g., *5-Minute Tap Leak Audit*, *Standby Vampire Power Hunt*, *Zero-Packaging Lunch*, *Dedicated E-Waste Box*).
-- Status Workflow: `Available` $\rightarrow$ `In Progress` $\rightarrow$ `Completed` (or `Skipped`).
-- Estimated impact tracking with zero duplicate XP.
-- Dynamic recommendation banner prioritizing missions matching the user's weakest EcoIQ categories.
+## 💻 Getting Started
 
----
+### Prerequisites
 
-### 4. ✂️ Create With What You Have (16 DIY Crafts)
-- Multi-material selection chips (Cardboard, Plastic Bottles, Denim, Jars, Newspapers, Cans, Bubble Wrap, Egg Cartons).
-- **Recommendation Algorithm**:
-  $$\text{Score} = (3 \times \text{Materials Matched}) + (2 \times \text{Multi-Material Bonus}) + (2 \times \text{Filter Matches})$$
-- Step-by-step guides with safety warnings, material checklists, bookmarking, and completion XP.
+- A modern web browser, such as Google Chrome, Microsoft Edge, Firefox, or Safari.
+- Node.js **only if you want to run the optional validation script**.
 
----
+### Run the application
 
-### 5. 🔍 EcoLens Photo Scanner & Disposal Assistant
-- Instant real-time multi-token search across 24 everyday waste items.
-- Working image upload & drag-and-drop photo scanner with simulated laser beam scanning animation.
-- 8 quick scan sample presets with clean animated previews.
-- Universal municipal segregation fallback for unindexed items.
+1. Download or clone this repository from GitHub.
+2. If you downloaded a ZIP file, extract it.
+3. Open the `ECOQUEST` project folder.
+4. Open `index.html` in your browser to launch the application.
 
----
+**No Python installation, backend setup, database configuration, or API keys are required.**
 
-### 6. 🗺️ My Eco Journey Roadmap (8 Stages)
-- Exactly 8 requirement-based progression stages:
-  1. **Eco Foundations**: Establish segregation habits and benchmark baseline EcoIQ.
-  2. **Waste & Circular Living**: Eliminate single-use packaging and complete upcycling crafts.
-  3. **Water Stewardship**: Conduct home leak audits and optimize shower water usage.
-  4. **Energy & Climate**: Hunt standby vampire loads and maximize daylight.
-  5. **Food & Sustainable Consumption**: Prevent kitchen waste and adopt sustainable eating habits.
-  6. **E-Waste & Sustainable Technology**: Isolate hazardous battery chemistry and declutter digital footprints.
-  7. **Biodiversity & Sustainable Living**: Support urban pollinators and use non-toxic surface cleaners.
-  8. **Community Leadership**: Drive neighborhood cleanups and embrace active transit.
-- Progression requirements adapt dynamically based on actual completed topics, missions, crafts, and assessments.
+If your browser blocks any functionality when opening the HTML file directly, you can optionally use a local static web server. This is only an alternative way to serve the frontend; it does not mean EcoQuest requires a backend.
 
----
+### First-time use
 
-### 7. 👤 Profile & Progress Dashboards
-- Estimated personal environmental impact tracking (Litres of water saved, kg of waste diverted, kWh of electricity cut).
-- 12 milestone achievement badges with live dynamic unlock rules.
-- 8 domain mastery progression percentage bars.
-- User identity editor (Name, Bio with 160-character counter, Avatar Initial).
+1. Open the landing page.
+2. Use the application's available registration or login flow.
+3. Explore EcoIQ assessments, learning topics, Eco Missions, creative projects, and EcoLens.
+4. Complete activities and review your progress dashboard.
 
----
+### Important data and security note
 
-### 8. 🎨 Personalization & Visual Customization
-- **Theme**: Light Theme design system built for maximum legibility and accessibility.
-- **Accent Color Palette**:
-  - 🟢 **Forest Green** (Default)
-  - 🔵 **Ocean Teal**
-  - 🟤 **Earth Amber**
-  - 🌿 **Sage Botanical**
-  - 🌅 **Sunset Coral**
-- Controlled via CSS custom property tokens (`--accent-primary`, `--accent-hover`, `--accent-soft`, `--accent-border`, `--accent-strong`) and persisted in `localStorage`.
+EcoQuest is a client-side project. Profile and progress data are stored in browser storage rather than a secure server-side account database. Data is not automatically synchronized across browsers or devices, and clearing browser storage may remove it.
 
----
-
-## 🔮 Future Scope
-
-### 1. Backend & Cloud Database
-Move user accounts, progress, missions, bookmarks and assessments from browser-only localStorage to a secure backend and database for persistent multi-device access.
-
-### 2. Progressive Web App
-Convert EcoQuest into a PWA with installable mobile support, offline caching and background synchronization.
-
-### 3. Real-Time Municipal Waste Information
-Integrate verified local waste-management information, recycling centers, collection schedules and disposal facilities based on the user's location.
-
-### 4. AI-Powered EcoLens
-Future versions could optionally use AI/computer vision to identify waste from uploaded images and suggest appropriate disposal or reuse methods. AI should remain an optional enhancement and must not be required for the core platform.
-
-### 5. Community & College Administration
-Add administrator dashboards for colleges, institutions and communities to create challenges, monitor participation and organize environmental campaigns.
-
-### 6. Verified Environmental Impact
-Connect completed actions with standardized environmental impact models and, where possible, verified activity data to improve the accuracy of impact estimates.
-
-### 7. Multilingual Support
-Expand EcoQuest beyond English to support regional and international languages.
-
-### 8. Notifications & Personalized Reminders
-Add optional reminders for unfinished missions, learning activities, community challenges and sustainable habits.
-
-### 9. Expanded Sustainability Database
-Continuously expand the environmental knowledge library, EcoLens catalog, missions and upcycling projects with expert-reviewed content.
-
-### 10. Mobile Application
-Develop dedicated Android/iOS applications using the existing EcoQuest functionality as the foundation.
-
-### 11. EcoQuest Campus Mode
-Allow colleges to create department/class challenges, recycling drives, sustainability campaigns, participation leaderboards, certificates and campus-level environmental impact dashboards.
+The browser-based account flow is intended for this project and should not be treated as production-grade authentication or secure account management.
 
 ---
 
 ## 🧪 Verification & Testing
 
-To test the application locally:
-1. Open `index.html` directly in any modern web browser (Chrome, Edge, Firefox, Safari).
-2. Register an account or log in.
-3. Complete an EcoIQ assessment, solve a Knowledge Check in Learn Topics, complete a Mission, and try the EcoLens scanner.
+The repository includes `test-validation.js`, a project validation script.
 
-To run automated unit verification tests with Node.js:
+To run it, first install Node.js if it is not already available. Then open a terminal in the main project folder and execute:
+
 ```bash
 node test-validation.js
 ```
 
+The script checks the project according to its implemented validation rules. Passing this script does not replace testing the complete application in a browser.
+
+**Recommended manual checks:**
+- Landing page and account flow.
+- EcoIQ assessments and answer feedback.
+- Learning modules and knowledge checks.
+- Mission status updates.
+- DIY project filtering and completion.
+- EcoLens search and image-upload interactions.
+- Profile editing and progress tracking.
+- Accent color changes and responsive layouts.
+
 ---
 
-## 📜 Internship Declaration
-This project is developed as the **Final Internship Capstone Project**. Educational topics, quiz scenarios, upcycling activities, and environmental actions are structured to provide practical, user-friendly sustainability learning.
+## 🔮 Future Scope
+
+Potential future improvements include:
+
+1. **Backend & Cloud Database:** Secure account management, cloud persistence, and multi-device access.
+2. **Progressive Web App:** Installable application support and offline capabilities.
+3. **Local Waste-Management Information:** Verified recycling facilities, collection schedules, and municipal disposal guidance.
+4. **AI-Powered EcoLens:** Optional image recognition for waste identification.
+5. **Community & College Administration:** Community challenges, institutional dashboards, and environmental campaign management.
+6. **Improved Environmental Impact Estimates:** Documented methodologies and more reliable reference data.
+7. **Multilingual Support:** Regional and international language options.
+8. **Notifications & Reminders:** Optional reminders for learning activities and sustainability habits.
+9. **Expanded Sustainability Content:** More learning modules, missions, waste catalog entries, and upcycling projects.
+10. **Mobile Application:** Explore dedicated Android and iOS applications.
+11. **EcoQuest Campus Mode:** Campus sustainability challenges, recycling drives, participation tracking, and campus-level impact dashboards.
+
+---
+
+## 📜 Internship Project Declaration
+
+EcoQuest was developed as a final internship capstone project focused on environmental education, creative reuse, and practical sustainability actions.
+
+The platform aims to make environmental learning more interesting, interactive, and creative by connecting educational content with everyday activities. Users can explore sustainability concepts, record their progress, and discover practical ways to make more environmentally conscious choices.
+
+**EcoQuest — Learn. Create. Act.** 🌱
